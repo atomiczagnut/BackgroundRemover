@@ -12,14 +12,17 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install them
-COPY requirements.txt .
+COPY backend/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of your application code
 COPY . .
 
+# Change WORKDIR to where main actually lives
+WORKDIR /app/backend/api
+
 # Pre-download the AI model
 RUN python -c "from rembg import new_session; new_session('u2net')"
 
 # Start the application
-CMD uvicorn backend.api.main:app --host 0.0.0.0 --port ${PORT:-8080}
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}
