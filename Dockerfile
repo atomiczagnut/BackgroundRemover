@@ -3,6 +3,7 @@ FROM python:3.11-slim
 
 # Set the working directory inside the container
 WORKDIR /app
+COPY . .
 
 # Install system libraries required by OpenCV and Rembg
 RUN apt-get update && apt-get install -y \
@@ -21,4 +22,4 @@ COPY . .
 RUN python -c "from rembg import new_session; new_session('u2net')"
 
 # Start the application
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}
+CMD uvicorn backend.api.main:app --host 0.0.0.0 --port ${PORT:-8080}
