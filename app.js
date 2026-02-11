@@ -4,6 +4,8 @@ const resultImage = document.getElementById("result-image");
 const downloadLink = document.getElementById("download-link");
 const loadingContainer = document.getElementById("loading-container");
 
+const port = 8080;
+
 removeBtn.addEventListener("click", async () => {
     const file = imageInput.files[0]
 
@@ -21,7 +23,7 @@ removeBtn.addEventListener("click", async () => {
     formData.append("file", file);
 
     try {
-        const response = await fetch("http://localhost:8000/remove-bg", {
+        const response = await fetch(`http://localhost:${port}/remove-bg`, {
             method: "POST",
             body: formData,
         });
